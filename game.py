@@ -14,7 +14,12 @@ class Game(object):
 
 	#initializes board of the game and the areacodes
 	def __init__(self):
-		self.board = np.zeros(shape = (3,3), dtype = 'int')
+		self.board = np.zeros(shape = (3,3), dtype = 'str')
+		listA = [['1','2','3'],['4','5','6'],['7','8','9']]
+		for x in xrange(0,3):
+			for y in xrange(0,3):
+				self.board[x][y] = listA[x][y]
+		self.showcase = np.zeros(shape = (3,3), dtype = 'str')
 		self.areacode = {1: [0,0], 2: [0,1], 3: [0,2],
 						4: [1,0], 5: [1,1], 6: [1,2],
 						7: [2,0], 8: [2,1], 9: [2,2]}
@@ -24,10 +29,21 @@ class Game(object):
 	def create_player(self, name, symb):
 		self.players[name] = self.Player(name, symb)
 
+	def show_board(self):
+		print self.showcase[0][0] + '\t' + self.showcase[0][1] + '\t' + self.showcase[0][2]
+		print self.showcase[1][0] + '\t' + self.showcase[1][1] + '\t' + self.showcase[1][2]
+		print self.showcase[2][0] + '\t' + self.showcase[2][1] + '\t' + self.showcase[2][2]
+		
 	#any move corresponding to areacode marked with symb
 	def make_move(self, move, symb):
-		if self.board[self.areacode[move][0]][self.areacode[move][1]] == 0: self.board[self.areacode[move][0]][self.areacode[move][1]] = symb
-		else: print 'Move already made on this tile.' 
+		try:
+			if self.board[self.areacode[move][0]][self.areacode[move][1]] == 'x' or self.board[self.areacode[move][0]][self.areacode[move][1]] == 'o':
+				print 'Tile not available'
+			else:
+				self.board[self.areacode[move][0]][self.areacode[move][1]] = symb
+				self.showcase[self.areacode[move][0]][self.areacode[move][1]] = symb
+		except KeyError:
+			print 'Invalid Tile'
 
 	#checks if board is full or not
 	def board_is_full(self):
@@ -77,43 +93,14 @@ class Game(object):
 		
 		#Checks
 		if T_h[0] == T_h[1] == T_h[2]: T_hw = True
-		for element in T_h:
-			if int(element) is 0:
-				T_hw = False
-		
 		if M_h[0] == M_h[1] == M_h[2]: M_hw = True
-		for element in M_h:
-			if int(element) is 0:
-				M_hw = False
-
 		if B_h[0] == B_h[1] == B_h[2]: B_hw = True
-		for element in B_h:
-			if int(element) is 0:
-				B_hw = False
 
 		if T_v[0] == T_v[1] == T_v[2]: T_vw = True
-		for element in T_v:
-			if int(element) is 0:
-				T_vw = False
-
 		if M_v[0] == M_v[1] == M_v[2]: M_vw = True
-		for element in M_v:
-			if int(element) is 0:
-				M_vw = False
-
 		if B_v[0] == B_v[1] == B_v[2]: B_vw = True
-		for element in B_v:
-			if int(element) is 0:
-				B_vw = False
 
-		if DRL[0] == DRL[1] == DRL[2]: DRL_w = True
-		for element in DRL:
-			if int(element) is 0:
-				DRL_w = False
-		
+		if DRL[0] == DRL[1] == DRL[2]: DRL_w = True		
 		if DLR[0] == DLR[1] == DLR[2]: DLR_w = True
-		for element in DLR:
-			if int(element) is 0:
-				DLR_w = False
-
+		
 		self.Report = {'T_hw' : T_hw, 'M_hw' : M_hw, 'B_hw' : B_hw, 'T_vw': T_vw, 'M_vw' : M_vw, 'B_vw' : B_vw, 'DRL_w' : DRL_w, 'DLR_w' : DLR_w} 
