@@ -19,6 +19,7 @@ class Game(object):
 						4: [1,0], 5: [1,1], 6: [1,2],
 						7: [2,0], 8: [2,1], 9: [2,2]}
 		self.players = {}
+		self.Report = {}
 
 	def create_player(self, name, symb):
 		self.players[name] = self.Player(name, symb)
@@ -36,9 +37,21 @@ class Game(object):
 					return False
 		return True
 
-	def who_won(self, winmethod):
-		if winmethod == 'T_h' or winmethod == 'T_v' or winmethod == 'DLR':
-			return self.board[0][0]
+	def who_won(self):
+		winmethod = ''
+		for element in self.Report:
+			if self.Report[element] == True: winmethod = element
+
+		if winmethod == 'T_hw' or winmethod == 'T_vw' or winmethod == 'DLR_w':
+			return str(self.board[0][0])
+		if winmethod == 'B_vw' or winmethod == 'DRL_w':
+			return str(self.board[0][2])
+		if winmethod == 'M_vw':
+			return str(self.board[0][1])
+		if winmethod == 'M_hw':
+			return str(self.board[1][0])
+		if winmethod == 'B_hw':
+			return str(self.board[2][0])
 
 	#checks if there is a winner in the game or not
 	def any_winner(self):
@@ -103,4 +116,4 @@ class Game(object):
 			if int(element) is 0:
 				DLR_w = False
 
-		Report = {'T_hw' : T_hw, 'M_hw' : M_hw, 'B_hw' : B_hw, 'T_vw': T_vw, 'M_vw' : M_vw, 'B_vw' : B_vw, 'DRL_w' : DRL_w, 'DLR_w' : DLR_w} 
+		self.Report = {'T_hw' : T_hw, 'M_hw' : M_hw, 'B_hw' : B_hw, 'T_vw': T_vw, 'M_vw' : M_vw, 'B_vw' : B_vw, 'DRL_w' : DRL_w, 'DLR_w' : DLR_w} 
