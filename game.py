@@ -23,6 +23,8 @@ class Game(object):
 						7: [2,0], 8: [2,1], 9: [2,2]}
 		self.players = {}
 		self.Report = {}
+		self.tiles_marked = []
+		self.v_fuck = False
 
 	def create_player(self, name, symb):
 		self.players[name] = self.Player(name, symb)
@@ -34,24 +36,22 @@ class Game(object):
 		
 	#any move corresponding to areacode marked with symb
 	def make_move(self, move, symb):
-		try:
-			if self.board[self.areacode[move][0]][self.areacode[move][1]] == 'x' or self.board[self.areacode[move][0]][self.areacode[move][1]] == 'o':
-				print 'Tile not available. Error.'
-				exit()
-			else:
-				self.board[self.areacode[move][0]][self.areacode[move][1]] = symb
-				self.showcase[self.areacode[move][0]][self.areacode[move][1]] = symb
-		except KeyError:
-			print 'Invalid Tile'
+		used = False
+		self.retry = 0
+		for tiles in self.tiles_marked:
+			if tiles == move:
+				used = True
+		if used is False:
+			self.board[self.areacode[move][0]][self.areacode[move][1]] = symb
+			self.showcase[self.areacode[move][0]][self.areacode[move][1]] = symb
+			self.tiles_marked.append(move)
+			self.v_fuck = False
+		else:
+			self.v_fuck = True
 
-	#checks if board is full or not
-	def board_is_full(self):
-		for i in xrange(0,3):
-			for y in xrange(0,3):
-				if self.board[i][y] == 0:
-					return False
-		return True
-
+	def vishal_move(self, symb):
+		move = np.random.randint(1,10)
+		self.make_move(move, symb)
 	def who_won(self):
 		winmethod = ''
 		for element in self.Report:
@@ -68,16 +68,21 @@ class Game(object):
 		T_h = [self.board[0][0],self.board[0][1],self.board[0][2]]
 		M_h = [self.board[1][0],self.board[1][1],self.board[1][2]]
 		B_h = [self.board[2][0],self.board[2][1],self.board[2][2]]
-		T_hw = False, M_hw = False, B_hw = False
+		T_hw = False 
+		M_hw = False 
+		B_hw = False
 		#VERTICLE COLLECT
 		T_v = [self.board[0][0],self.board[1][0],self.board[2][0]]
 		M_v = [self.board[0][1],self.board[1][1],self.board[2][1]]
-		B_v = [self.board[0][2],self.board[1][2],self.board[2][2]]
-		T_vw = False, M_vw = False, B_vw = False 
+		B_v =  [self.board[0][2],self.board[1][2],self.board[2][2]]
+		T_vw = False 
+		M_vw = False
+		B_vw = False 
 		#DIAG COLLECT
 		DRL = [self.board[0][0],self.board[1][1],self.board[2][2]]
 		DLR = [self.board[2][0],self.board[1][1],self.board[0][2]]
-		DRL_w = False, DLR_w = False
+		DRL_w = False 
+		DLR_w = False
 		#Checks
 		if T_h[0] == T_h[1] == T_h[2]: T_hw = True
 		if M_h[0] == M_h[1] == M_h[2]: M_hw = True
