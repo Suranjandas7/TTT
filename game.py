@@ -27,7 +27,9 @@ class Game(object):
 		self.v_fuck = False
 
 	def create_player(self, name, symb):
-		self.players[name] = self.Player(name, symb)
+		obj = self.Player(name, symb)
+		self.players[name] = obj
+		return obj
 
 	def show_board(self):
 		print self.showcase[0][0] + '\t' + self.showcase[0][1] + '\t' + self.showcase[0][2]
@@ -35,13 +37,31 @@ class Game(object):
 		print self.showcase[2][0] + '\t' + self.showcase[2][1] + '\t' + self.showcase[2][2]
 		
 	#any move corresponding to areacode marked with symb
-	def make_move(self, move, symb):
+	def make_move(self, move, name, vmode):
+		if vmode is 1:
+			vishal_move = np.random.randint(1,10)
 		used = False
-		self.retry = 0
+		vishal_used = 1
+
 		for tiles in self.tiles_marked:
-			if tiles == move:
+			if tiles == move: 
 				used = True
+				if vmode is 1:
+					if tiles == vishal_move:
+						vishal_used = 0
 		if used is False:
+			if vishal_used == 0:
+				if name is 'Vishal':
+					move = vishal_move
+					for items in self.players.values():
+						if name is 'Vishal':
+							symb = str(items.symb)
+				self.board[self.areacode[vishal_move][0]][self.areacode[vishal_move][1]] = symb
+				self.showcase[self.areacode[vishal_move][0]][self.areacode[vishal_move][1]] = symb
+				self.v_fuck = True
+			for items in self.players.values():
+					if name is str(items.name):
+						symb = str(items.symb)
 			self.board[self.areacode[move][0]][self.areacode[move][1]] = symb
 			self.showcase[self.areacode[move][0]][self.areacode[move][1]] = symb
 			self.tiles_marked.append(move)
@@ -49,18 +69,35 @@ class Game(object):
 		else:
 			self.v_fuck = True
 
-	def vishal_move(self, symb):
-		move = np.random.randint(1,10)
-		self.make_move(move, symb)
-	def who_won(self):
-		winmethod = ''
-		for element in self.Report:
-			if self.Report[element] == True: winmethod = element
-		if winmethod == 'T_hw' or winmethod == 'T_vw' or winmethod == 'DLR_w': return str(self.board[0][0])
-		if winmethod == 'B_vw' or winmethod == 'DRL_w': return str(self.board[0][2])
-		if winmethod == 'M_vw': return str(self.board[0][1])
-		if winmethod == 'M_hw': return str(self.board[1][0])
-		if winmethod == 'B_hw': return str(self.board[2][0])
+#MAW
+	# def anton_move(self, symb):
+	# 	possible_moves = [] 
+
+	# 	if self.board[0][0] != player1.symb:
+	# 		tl_corner = self.board[0][0] 
+	# 	if self.board[0][2] != player1.symb:
+	# 		tr_corner = self.board[0][2]
+	# 	if self.board[2][0] != player1.symb:
+	# 		bl_corner = self.board[2][0] 
+	# 	if self.board[2][2] != player1.symb:
+	# 		br_corner = self.board[2][2]
+
+	# 	for element in [tl_corner, tr_corner, bl_corner, br_corner]:
+	# 		if element != symb:
+	# 			possible_moves.append(element)
+
+	# 	#write a sorting procedure that removes ememy moves from possible_moves
+	# 	for element in possible_moves:
+	# 		print 'MAW'
+	# def who_won(self):
+	# 	winmethod = ''
+	# 	for element in self.Report:
+	# 		if self.Report[element] == True: winmethod = element
+	# 	if winmethod == 'T_hw' or winmethod == 'T_vw' or winmethod == 'DLR_w': return str(self.board[0][0])
+	# 	if winmethod == 'B_vw' or winmethod == 'DRL_w': return str(self.board[0][2])
+	# 	if winmethod == 'M_vw': return str(self.board[0][1])
+	# 	if winmethod == 'M_hw': return str(self.board[1][0])
+	# 	if winmethod == 'B_hw': return str(self.board[2][0])
 
 	#checks if there is a winner in the game or not
 	def any_winner(self):

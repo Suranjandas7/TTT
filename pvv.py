@@ -1,22 +1,34 @@
 #Implementation of a 2v2 human v/s the dumb AI game format
-
 from game import *
 
 g = Game()
-name1 = str(raw_input('Enter name for player 1: '))
-name2 = 'Vishal'
-
-player1 = g.Player(name1, 'x')
-player2 = g.Player(name2, 'o')
+I_name1 = str(raw_input('Enter name for player 1: '))
+I_name2 = 'Vishal'
+I_symb1 = str(raw_input('X or O for ' + I_name1 + ' : '))
+if I_symb1 == 'X':
+	player1 = g.create_player(I_name1, I_symb1)
+	player2 = g.create_player('Vishal', 'O')
+if I_symb1 == 'O':
+	player1 = g.create_player('Vishal', 'X')
+	player2 = g.create_player(I_name1, I_symb1)
 
 def main_loop(retry_range):
-	for x in xrange(retry_range,5): 
-		move = int(raw_input('Enter move for ' + player1.name + ' :'))
-		g.make_move(move, player1.symb)
-		if g.v_fuck is True:
-			while g.v_fuck is True:
-				move = int(raw_input('Enter move for ' + player1.name + ' :'))
-				g.make_move(move, player1.symb)
+	for x in xrange(0,5): 
+		if player1.name == 'Vishal':
+			print 'Making Dumb AI MOVE'
+			move = np.random.randint(1,10)	
+			g.make_move(move, player1.name, 1)		
+			if g.v_fuck is True:
+				while g.v_fuck is True:
+					move = np.random.randint(1,10)
+					g.make_move(move, player1.name, 1)
+		else:
+			move = int(raw_input('Enter move for ' + player1.name + ' :'))
+			g.make_move(move, player1.name, 0)
+			if g.v_fuck is True:
+				while g.v_fuck is True:
+					move = int(raw_input('Enter move for ' + player1.name + ' :'))
+					g.make_move(move, player1.name, 0)
 		g.show_board()
 		g.any_winner()
 		for element in g.Report:
@@ -24,12 +36,23 @@ def main_loop(retry_range):
 
 		if x == 4:
 			return 'Draw'
-		print 'Vishal move'
 		
-		g.vishal_move(player2.symb)
-		if g.v_fuck is True:
-			while g.v_fuck is True:
-				g.vishal_move(player2.symb)
+		if player2.name == 'Vishal':
+			print 'Making Dumb AI MOVE'
+			move = np.random.randint(1,10)	
+			g.make_move(move, player2.name, 1)
+			if g.v_fuck is True:
+				while g.v_fuck is True:
+					move = np.random.randint(1,10)
+					g.make_move(move, player2.name, 1)
+		
+		else:
+			move = int(raw_input('Enter move for ' + player2.name + ' :'))
+			g.make_move(move, player2.name, 0)
+			if g.v_fuck is True:
+				while g.v_fuck is True:
+					move = int(raw_input('Enter move for ' + player2.name + ' :'))
+					g.make_move(move, player2.name, 0)
 		g.show_board()
 		g.any_winner()
 		for element in g.Report:
