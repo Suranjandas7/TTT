@@ -1,5 +1,6 @@
 #Tic Tak Toe for python
 import numpy as np
+from anton import *
 
 class Game(object):
 	class Player(object):
@@ -68,36 +69,6 @@ class Game(object):
 			self.v_fuck = False
 		else:
 			self.v_fuck = True
-
-#MAW
-	# def anton_move(self, symb):
-	# 	possible_moves = [] 
-
-	# 	if self.board[0][0] != player1.symb:
-	# 		tl_corner = self.board[0][0] 
-	# 	if self.board[0][2] != player1.symb:
-	# 		tr_corner = self.board[0][2]
-	# 	if self.board[2][0] != player1.symb:
-	# 		bl_corner = self.board[2][0] 
-	# 	if self.board[2][2] != player1.symb:
-	# 		br_corner = self.board[2][2]
-
-	# 	for element in [tl_corner, tr_corner, bl_corner, br_corner]:
-	# 		if element != symb:
-	# 			possible_moves.append(element)
-
-	# 	#write a sorting procedure that removes ememy moves from possible_moves
-	# 	for element in possible_moves:
-	# 		print 'MAW'
-	# def who_won(self):
-	# 	winmethod = ''
-	# 	for element in self.Report:
-	# 		if self.Report[element] == True: winmethod = element
-	# 	if winmethod == 'T_hw' or winmethod == 'T_vw' or winmethod == 'DLR_w': return str(self.board[0][0])
-	# 	if winmethod == 'B_vw' or winmethod == 'DRL_w': return str(self.board[0][2])
-	# 	if winmethod == 'M_vw': return str(self.board[0][1])
-	# 	if winmethod == 'M_hw': return str(self.board[1][0])
-	# 	if winmethod == 'B_hw': return str(self.board[2][0])
 
 	#checks if there is a winner in the game or not
 	def any_winner(self):
