@@ -1,14 +1,10 @@
 #Tic Tak Toe for python
 import numpy as np
-from anton import *
 
 class Game(object):
 	class Player(object):
 		def __init__(self, name, symb):
 			self.name = name
-			self.wins = 0
-			self.losses = 0
-			self.draws = 0
 			self.symb = symb
 
 	#initializes board of the game and the areacodes
@@ -52,10 +48,10 @@ class Game(object):
 						vishal_used = 0
 		if used is False:
 			if vishal_used == 0:
-				if name is 'Vishal':
+				if name is 'Vishal' or name is 'VishalB':
 					move = vishal_move
 					for items in self.players.values():
-						if name is 'Vishal':
+						if name is 'Vishal' or name is 'VishalB':
 							symb = str(items.symb)
 				self.board[self.areacode[vishal_move][0]][self.areacode[vishal_move][1]] = symb
 				self.showcase[self.areacode[vishal_move][0]][self.areacode[vishal_move][1]] = symb
