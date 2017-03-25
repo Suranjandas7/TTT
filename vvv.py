@@ -49,27 +49,26 @@ def main_loop():
 
 results = {'Vishal':0,'VishalB':0,'Draw':0}
 megaresults = {1000:[],2000:[],3000:[],4000:[],5000:[],6000:[],7000:[],8000:[],9000:[],10000:[]}
-for i in xrange(1,10002):
+for i in xrange(1,10001):
 	winner = main_loop()
 	results[winner] = int(results[winner])+1
-	print 'Game Instance over'
+	print 'Game Instance [' + str(i) + '] ongoing.'
 	if i > 980:
-		if ((i)%1000) is 1:
-			megaresults[i-1] = ([results['Vishal'],results['VishalB'],results['Draw']])
+		if i%1000 is 0:
+			megaresults[i] = ([results['Vishal'],results['VishalB'],results['Draw']])
+print '\n Opening file to write data.'
+with open('Data.dat','a') as f:
+	f.write('\n------NEWFILE--------\n')
+	for x in [1000,2000,3000,4000,5000,6000,7000,8000,9000,10000]:
+		Vishal = megaresults[x][0]
+		VishalB = megaresults[x][1]
+		Draw = megaresults[x][2]
+		line = str(x) + '|' + str(Vishal) + '|' + str(VishalB) + '|' + str(Draw) + ''
+		f.write(line + '\n')
+	f.write('\n')
+	overall_percent_Vishal = int(results['Vishal']) * 0.01
+	overall_percent_VishalB = int(results['VishalB']) * 0.01
+	overall_percent_Draw = int(results['Draw']) * 0.01
+	f.write('Overall Percentages \n' + 'Vishal : ' + str(overall_percent_Vishal) + '\n' + 'VishalB : ' + str(overall_percent_VishalB) + '\n' + 'Draw : ' + str(overall_percent_Draw) + '\n')
 
-print 'Results' + 'Vishal|VishalB|Draw'
-print '100: ' + str(megaresults[1000])
-print '200: ' + str(megaresults[2000])
-print '300: ' + str(megaresults[3000])
-print '400: ' + str(megaresults[4000])
-print '500: ' + str(megaresults[5000])
-print '600: ' + str(megaresults[6000])
-print '700: ' + str(megaresults[7000])
-print '800: ' + str(megaresults[8000])
-print '900: ' + str(megaresults[9000])
-print '1000: ' + str(megaresults[10000])
-
-print 'Percentage : \n'
-print 'Vishal :' + str(((int(results['Vishal']) * 100/10000)))
-print 'VishalB :' + str(((int(results['VishalB']) * 100/10000)))
-print 'Draw :' + str(((int(results['Draw']) * 100/10000)))
+print 'Data written for 10,000 matches in data.dat'
